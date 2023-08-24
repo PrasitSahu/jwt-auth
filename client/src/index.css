@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: cubano;
+  src: url(./assets/fonts/Cubano.ttf);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: cubano;
+}
