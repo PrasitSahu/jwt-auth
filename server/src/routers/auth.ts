@@ -1,5 +1,5 @@
 // importing dependencies
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { userModel as User } from "../Models/index";
 import { Err, SuccessCodes, Success, ErrorCodes } from "../@types";
 import { verifyJwt } from "../Models/user";
@@ -7,7 +7,7 @@ import { verifyJwt } from "../Models/user";
 // variables
 const Router = express.Router();
 
-Router.post("/login", (req: Request, res: Response, next) => {
+const loginMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (req.cookies?.session) {
     verifyJwt(req.cookies.session)
       .then((decode) => {
@@ -19,9 +19,11 @@ Router.post("/login", (req: Request, res: Response, next) => {
         res.statusCode = err.statusCode;
         res.json(err);
       })
-      .catch((err) => next(err));
-    return;
-  }
+      .catch((err) => next());
+  } else next();
+}
+
+Router.post("/login", loginMiddleware, (req: Request, res: Response) => {
   const { email, password }: { email: string; password: string } = req.body;
 
   User.login(email, password)

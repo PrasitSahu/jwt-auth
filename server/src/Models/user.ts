@@ -164,12 +164,45 @@ async function genHash(param: string, saltRound: number): Promise<string> {
 }
 
 export async function verifyJwt(token: string) {
-  jwt.verify(token, process.env.REFRESH_TOKEN as string, (err, decoded) => {
-    return new Promise((rej, res) => {
-      if (err) return rej("failed to verify token.");
-      res((decoded as jwt.JwtPayload).id as string);
+  try {
+    let id = null as null | string;
+    let has_err: boolean = false;
+    jwt.verify(token, process.env.REFRESH_TOKEN as string, (err, decoded) => {
+      if (err) return (has_err = true);
+      id = (decoded as jwt.JwtPayload).id as string;
     });
-  });
+
+    if (has_err) {
+      const error: Err = {
+        message: "decode error.",
+        status: ErrorCodes[ErrorCodes["Bad Request"]],
+        statusCode: ErrorCodes["Bad Request"],
+      };
+      return Promise.reject(error);
+    }
+    const user = await userModel.findOne({ id }).exec();
+    if (user?.$isEmpty) {
+      const error: Err = {
+        message: "decode error.",
+        status: ErrorCodes[ErrorCodes["Bad Request"]],
+        statusCode: ErrorCodes["Bad Request"],
+      };
+      return Promise.reject(error);
+    }
+    const success: Success = {
+      message: "decoded successfully.",
+      statusCode: SuccessCodes.Accepted,
+      status: SuccessCodes[SuccessCodes.Accepted],
+    };
+    return success;
+  } catch (err) {
+    const error: Err = {
+      message: "snapp! something went wrong.",
+      status: ErrorCodes[ErrorCodes["Bad Request"]],
+      statusCode: ErrorCodes["Bad Request"],
+    };
+    return Promise.reject(error);
+  }
 }
 
 export default userModel;
