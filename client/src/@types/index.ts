@@ -32,3 +32,9 @@ export interface Fetcher {
   get: (url: string) => Promise<{}>;
   post: (url: string, body: {}) => Promise<{}>;
 }
+
+export interface AlertType {
+  title: string;
+  type: "error" | "success" | "info";
+  show: boolean;
+}

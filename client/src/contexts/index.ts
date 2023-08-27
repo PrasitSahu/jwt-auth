@@ -1,4 +1,10 @@
+// theme
 import { themeContext } from "./theme";
 import ThemeProvider from "./theme";
 
-export { themeContext, ThemeProvider };
+// alert
+import { alertContext } from "./alert";
+import AlertProvider from "./alert";
+
+
+export { themeContext, ThemeProvider, alertContext, AlertProvider };

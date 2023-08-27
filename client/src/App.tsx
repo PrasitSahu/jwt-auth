@@ -34,8 +34,8 @@ function App() {
             {
               index: true,
               loader: () => {
-                return redirect("./login")
-              }
+                return redirect("./login");
+              },
             },
             {
               path: "login",

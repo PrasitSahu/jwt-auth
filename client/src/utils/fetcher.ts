@@ -10,7 +10,7 @@ const fetcher: Fetcher = {
       method: "post",
       body: JSON.stringify(body),
     });
-    return await res.text();
+    return await res.json();
   },
 };
 
