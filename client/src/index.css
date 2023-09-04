@@ -8,7 +8,7 @@
   font-weight: 500;
 }
 
-:root{
+:root {
   overflow-x: hidden;
 }
 
@@ -31,6 +31,7 @@ a:not(button a) {
 
 a:hover {
   text-decoration-color: violet;
+  cursor: pointer;
 }
 
 div img {

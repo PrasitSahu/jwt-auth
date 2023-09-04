@@ -2,14 +2,16 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { AlertProvider, ThemeProvider } from "./contexts";
+import { AlertProvider, ThemeProvider, UserProvider } from "./contexts";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <ThemeProvider>
     <AlertProvider>
-      <App />
+      <UserProvider>
+        <App />
+      </UserProvider>
     </AlertProvider>
   </ThemeProvider>
 );

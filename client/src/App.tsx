@@ -5,12 +5,15 @@ import {
 } from "react-router-dom";
 import Home from "./pages";
 import Dashboard from "./pages/dashboard";
-import { useUser } from "./hooks";
+import { useAlert, useUser } from "./hooks";
 import Login from "./pages/auth/login";
 import Signup from "./pages/auth/signup";
+import Alert from "components/alert";
 
 function App() {
+  const [info, setInfo] = useAlert();
   const [user] = useUser();
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -24,7 +27,7 @@ function App() {
           index: true,
           element: <Dashboard />,
           loader: async () => {
-            if (!user) return redirect("/auth/login");
+            if (!user) return redirect("/auth/login?redirect=dashboard");
             return null;
           },
         },
@@ -34,7 +37,8 @@ function App() {
             {
               index: true,
               loader: () => {
-                return redirect("./login");
+                if (!user) return redirect("/auth/login");
+                return redirect("dashboard");
               },
             },
             {
@@ -42,7 +46,7 @@ function App() {
               element: <Login />,
               index: true,
               loader: () => {
-                if (user?.is_Loggedin) return redirect("/dashboard");
+                if (user) return redirect("/dashboard");
                 return null;
               },
             },
@@ -50,7 +54,7 @@ function App() {
               path: "signup",
               element: <Signup />,
               loader: () => {
-                if (user?.is_Loggedin) redirect("/dashboard");
+                if (user) return redirect("/dashboard");
                 return null;
               },
             },
@@ -62,6 +66,7 @@ function App() {
 
   return (
     <div className="App h-screen w-screen dark:bg-slate-900 bg-gray-200 overflow-x-hidden">
+      <Alert info={info} setInfo={setInfo} />
       <RouterProvider router={router} />
     </div>
   );

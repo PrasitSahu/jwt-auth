@@ -4,12 +4,6 @@ import { HTMLAttributes } from "react";
 export type ThemeType = "light" | "dark";
 
 // interfaces
-export interface User {
-  username: string;
-  email: string;
-  is_Loggedin: boolean;
-  is_admin: boolean;
-}
 
 export interface TextBoxProps<T> extends HTMLAttributes<T> {
   type?: "text" | "password" | "search" | "submit" | "email";
@@ -37,4 +31,10 @@ export interface AlertType {
   title: string;
   type: "error" | "success" | "info";
   show: boolean;
+}
+
+export interface User {
+  username: string,
+  email: string,
+  is_admin: boolean
 }

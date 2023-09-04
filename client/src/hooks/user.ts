@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { User } from "../@types/";
+import { userContext } from "contexts";
+import { useContext } from "react";
 
 const useUser = () => {
-  const [user, setUser] = useState<User | null>(null);
-  
+  const userInstance = useContext(userContext);
+  const { user, setUser } = userInstance;
+
   return [user, setUser] as const;
 };
 

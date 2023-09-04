@@ -2,18 +2,16 @@ import setTitle from "../utils/setTitle";
 import Header from "../components/header";
 import Button from "../components/button";
 import { Link } from "react-router-dom";
-import Alert from "components/alert";
-import { useContext } from "react";
-import { alertContext } from "contexts";
+import { useAlert } from "hooks";
 
 const Home = () => {
   setTitle("Home");
-  const alert = useContext(alertContext);
+  const [, setInfo] = useAlert();
 
   return (
     <>
       <Header />
-      <Alert info={alert.info} setInfo={alert.setInfo} />
+
       <div className="w-full h-auto flex">
         <section className="hero_section h-screen w-full flex">
           <div
@@ -73,14 +71,16 @@ const Home = () => {
             </p>
 
             <Button>
-              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/dashboard" state={{ redirect: "/dashboard" }}>
+                Dashboard
+              </Link>
             </Button>
             <Button
               onClick={() => {
-                alert.setInfo({
+                setInfo({
                   title: "Hello World!",
                   type: "success",
-                  show: true
+                  show: true,
                 });
               }}
             >
